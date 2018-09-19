@@ -23,6 +23,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator([]));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -56,7 +57,7 @@ const partialsDir = __dirname + '/views/partials';
 
 const filenames = fs.readdirSync(partialsDir);
 
-filenames.forEach(function (filename) {
+filenames.forEach(function(filename) {
   const matches = /^([^.]+).hbs$/.exec(filename);
   if (!matches) {
     return;
@@ -67,8 +68,13 @@ filenames.forEach(function (filename) {
 });
 
 hbs.registerHelper('json', function(context) {
-    return JSON.stringify(context, null, 2);
+  return JSON.stringify(context, null, 2);
 });
 
-
-module.exports = app;
+//Set port
+app.get('/', function(req, res) {
+  pages.index(req, res)
+})
+app.listen(3000, function() {
+      console.log('Server started!')
+    };
